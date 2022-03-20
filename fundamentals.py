@@ -9,11 +9,16 @@
 import requests
 import bs4
 import lxml
+import html5lib
+import pandas as pd
+
 
 #Exp: Grab the page title of a www.leasebusters.com webpage. This is whaat is written on the actual tab
 
 def title():
+    #This function grabs the title of a webpage
 
+    #Notes:
     #1. Use the .get method of requests to access a webpage
     ##The get() method sends a GET request to the specified url.
     #https://docs.python-requests.org/en/master/ -> The documentation of requests
@@ -29,11 +34,31 @@ def title():
     #print (results.text) #This will produce a string of all the html text in the webpage as a string
     soup=bs4.BeautifulSoup(results.text,"lxml")
     #print(soup.select('title')) #using the select attribute can allows to grab any html we want to grab. For example title. If you type p it will grab all the paragraphs
-    print(soup.select('title')[0].getText()) #this willg et only the text without the html tags
+    #print(soup.select('title')[0].getText()) #this will get only the text without the html tags
+
+
+
+def classes():
+
+    #results = requests.get("https://www.meadowvalehonda.ca/en/used-inventory")
+    #print(results.status_code)
+    #soup=bs4.BeautifulSoup(results.text,"lxml")
+    #print((soup.select('.price')))
+    #print(type((soup.select('.msrp-price')[0].text)))
+
+    response = requests.get("https://www.autoparkmississauga.ca/used/")
+    print(response.status_code)
+    soup=bs4.BeautifulSoup(response.content,'html.parser')
+    #print(soup)
+    results = soup.find_all('span', {'class':'vehicle-price-2-new suggestedPrice-price'})
+    print(len(results))
+    print(results)
+
 
 
 
 
 
 if __name__ == '__main__':
-    title()
+    #title()
+    classes()
