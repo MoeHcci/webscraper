@@ -6,8 +6,9 @@
 ###bs4 "beautirful soup Version 4",
 
 #Step 1 Import the libraries
-import requests
-import bs4
+import requests #https://docs.python-requests.org/en/latest/
+import bs4 #https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+from bs4 import BeautifulSoup
 import lxml
 import html5lib
 import pandas as pd
@@ -38,27 +39,55 @@ def title():
 
 
 
-def classes():
+def classes_two():
 
-    #results = requests.get("https://www.meadowvalehonda.ca/en/used-inventory")
-    #print(results.status_code)
-    #soup=bs4.BeautifulSoup(results.text,"lxml")
-    #print((soup.select('.price')))
-    #print(type((soup.select('.msrp-price')[0].text)))
+    #Method 2:
 
     response = requests.get("https://www.autoparkmississauga.ca/used/")
+    #Using the "request" library and the "get" method to connect and get all the info of a web page
+
     print(response.status_code)
-    soup=bs4.BeautifulSoup(response.content,'html.parser')
-    #print(soup)
-    results = soup.find_all('span', {'class':'vehicle-price-2-new suggestedPrice-price'})
-    print(len(results))
-    print(results)
+    #Checking the status by using the status_code method on the "response" varilable. If we get 200 then we are good. If we get 403 then we are blocked
+
+    #print(response.text)
+    #Reading the content of the server's response by using the "text" method on the "response" varrable. If this looks good then we do not need to modify the "encoding" property
 
 
+    soup=BeautifulSoup(response.content,'html5lib')
+    #Create a new variable "soup". It is a function of the BeautifulSoup method of the bs4 package and it is parsing through the decoded web page to present it as a nested data strcture(easily seperated/organized) using "html5lib" parser
+    #Few commands we can use to navigate through the data strcture: soup.title and many more checkout the docs
+
+    #print(soup.prettify)
+    ##This will print the full nested data strcture
+
+    #print(soup.prettify)
+    ##The prettify() method will turn a Beautiful Soup parse tree into a nicely formatted Unicode string
+
+    print(soup.title.string)
+    ##this will print the string potion of the full title. The full title also include the <title> html elements
+
+    find_first_a =soup.a
+    ##If the html element is used as an attribute then the results will give you only the first "a" tag
+
+    find_all_a =soup.find_all('a',"p")
+    ##This will find all the <a> tags in the html document
+
+    results = soup.find_all('span', class_='vehicle-price-2-new suggestedPrice-price')
+    ##This will find all the <span> tags in the html document.and those <span> tags must have 'vehicle-price-2-new suggestedPrice-price' class.
+    ##Using class as a keyword argument will give you a syntax error. As of Beautiful Soup 4.1.2, you can search by CSS class using the keyword argument class_ (A new short cut)
+    #For multiple classes we need to use the CSS classes selector
+
+    print((results))
+    ##The results will be shown in an html form you need to use the reuqests library to over come that
+
+    #for x in results:
+        #print(x.get_text())
+        ##The .text is used from the Requests library or we can use the .get_text() which is from the bs4 library
+        ##This will view all individual texts in the results
 
 
 
 
 if __name__ == '__main__':
     #title()
-    classes()
+    classes_two()
