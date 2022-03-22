@@ -46,7 +46,7 @@ def classes_two():
 
     #Method 2:
 
-    response = requests.get("https://www.autoparkmississauga.ca/used/group/pg/5")
+    response = requests.get("https://www.autoparkmississauga.ca/used/group/")
     #Using the "request" library and the "get" method to connect and get all the info of a web page
 
     #print(response.status_code)
@@ -101,20 +101,61 @@ def classes_two():
     print((results_driveWheelConfiguration[0].getText())) #->  ##The results will be shown in an html form you need to use the reuqests library to over come that
     print((results_city[0].getText())) #->  ##The results will be shown in an html form you need to use the reuqests library to over come that
 
-
-
-
-
-
-
-
-
-    l = []
+    l_prices = []
     for x in results_prices:
-        l.append(x.get_text().replace("\n",""))
-        ##The .text is used from the Requests library or we can use the .get_text() which is from the bs4 library
-        ##This will view all individual texts in the results
-    #print(l)
+        l_prices.append(x.get_text().replace("\n",""))
+    print(l_prices)
+
+    l_manufacturer = []
+    for x in results_manufacturer:
+        l_manufacturer.append(x.get_text().replace(" ",""))
+    print(l_manufacturer)
+
+    l_relesedate = []
+    for x in results_relesedate:
+        l_relesedate.append(x.get_text().replace(" ",""))
+    print(l_relesedate)
+
+    l_model= []
+    for x in results_model:
+        l_model.append(x.get_text())
+    print(l_model)
+
+    l_km = []
+    for x in results_km:
+        l_km.append(x.get_text().replace(" ",""))
+    print(l_km)
+
+    l_bodytype = []
+    for x in results_bodytype:
+        l_bodytype.append(x.get_text().replace(" ",""))
+    print(l_bodytype)
+
+    l_engine = []
+    for x in results_engine:
+        l_engine.append(x.get_text().replace(" ",""))
+    print(l_engine)
+
+    l_color =[]
+    for x in results_color:
+        l_color.append(x.get_text().replace(" ",""))
+    print(l_color)
+
+    l_vehicleTransmission = []
+    for x in results_vehicleTransmission:
+        l_vehicleTransmission.append(x.get_text().replace(" ",""))
+    print(l_vehicleTransmission)
+
+    l_driveWheelConfiguration =[]
+    for x in results_driveWheelConfiguration:
+        l_driveWheelConfiguration.append(x.get_text().replace(" ",""))
+    print(l_driveWheelConfiguration)
+
+    l_city =[]
+    for x in results_city:
+        l_city.append(x.get_text().replace(" ",""))
+    print(l_city)
+
 
 
 
