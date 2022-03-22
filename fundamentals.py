@@ -176,7 +176,7 @@ def classes_two(): #Method 2
 
 time_1 = time.time_ns()
 total =time_1-time_0
-print (f' {(total)}  Nano seconds') #-> Calculate the total time it takes to comples an opration
+print (f'The time it takes for the operation to run is: {(total)}ns') #-> Calculate the total time it takes to comples an opration
 if __name__ == '__main__':
     #title()
     classes_two()
