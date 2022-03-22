@@ -1,9 +1,4 @@
 #This .py file covers the basics of webscraping
-#Main Topics Covered:
-##The required packagesThe packages to install which are
-####requests, Allows us to make requests to websites and grab the info off the website
-###lxml, It is an HTML parser. Therefore, it is able to allow bs4 to distinguish between between the scraped html datar
-###bs4 "beautirful soup Version 4",
 
 #Step 1 Import the libraries
 import requests #https://docs.python-requests.org/en/latest/
@@ -14,12 +9,12 @@ import html5lib
 import pandas as pd
 import time
 
-t0=time.time()
+time_0=time.time_ns()
 
 
 #Exp: Grab the page title of a www.leasebusters.com webpage. This is whaat is written on the actual tab
 
-def title():
+def title(): #Method 1
     #This function grabs the title of a webpage
 
     #Notes:
@@ -42,24 +37,32 @@ def title():
 
 
 
-def classes_two():
+def classes_two(): #Method 2
 
-    #Method 2:
+    #1. Using the requests library and its get method to connect to the web page
 
     response = requests.get("https://www.autoparkmississauga.ca/used/group/")
-    #Using the "request" library and the "get" method to connect and get all the info of a web page
 
     #print(response.status_code)
-    #Checking the status by using the status_code method on the "response" varilable. If we get 200 then we are good. If we get 403 then we are blocked
+    ##Checking the status by using the status_code method on the "response" varilable. If we get 200 then we are good. If we get 403 then we are blocked
 
     #print(response.text)
     #Reading the content of the server's response by using the "text" method on the "response" varrable. If this looks good then we do not need to modify the "encoding" property
 
+    #2. Creating a soup using the BeautifulSoup method of bs4.
+    ##The soup varilable will parse through the html document after it has been decoded using a parser "lxml" or "html5lib" or others
+    ##The purpiose of this is to present the data as a nested data strcture(easily seperated/organized) using "lxml" parser
 
-    soup=BeautifulSoup(response.text,'lxml') #-> .text would be preferred for textual responses, such as an HTML or XML document. Used for Unicode
-    #soup=BeautifulSoup(response.content,'html5lib') #-> .content would be preferred for "binary" filetypes, such as an image or PDF fil. Used for bytes
-    ##Create a new variable "soup". It is a function of the BeautifulSoup method of the bs4 package and it is parsing through the decoded web page to present it as a nested data strcture(easily seperated/organized) using "html5lib" parser
-    ##Few commands we can use to navigate through the data strcture: soup.title and many more checkout the docs
+    ##Two methods can be used to present the data
+    ### .text would be preferred for textual responses, such as an HTML or XML document. Used for Unicode. Therefore, we should use .text in this project
+    ###.content would be preferred for "binary" filetypes, such as an image or PDF fil. Used for bytes
+
+    soup=BeautifulSoup(response.text,'lxml')
+    ## .text would be preferred for textual responses, such as an HTML or XML document. Used for Unicode
+
+    #soup=BeautifulSoup(response.content,'html5lib')
+    ##.content would be preferred for "binary" filetypes, such as an image or PDF fil. Used for bytes
+
 
     #print(soup.prettify)
     ##The prettify() method will turn a Beautiful Soup parse tree into a nicely formatted Unicode string
@@ -72,7 +75,14 @@ def classes_two():
     ##If the html element is used as an attribute then the results will give you only the first "a" tag
 
     #find_all_a =soup.find_all('a',"p")
-    ##This will find all the <a> tags in the html document
+    ##Using the find_all attribute with soup will find all the <a> and <p> tags in the html document
+
+
+    #3 Capturing the raw results using the soup.find_all varilable and attribute
+    ##Multiple methods can be used: I have used:
+    # 1. The tag and class method
+    # 2. The tag and feature method
+    # 3. The multi-tag method
 
     results_prices = soup.find_all('span', class_='vehicle-price-2-new suggestedPrice-price')
     ##This will find all the <span> tags in the html document.and those <span> tags must have 'vehicle-price-2-new suggestedPrice-price' class.
@@ -89,6 +99,9 @@ def classes_two():
     results_driveWheelConfiguration = soup.find_all('td', itemprop='driveWheelConfiguration')
     results_city = soup.select('td > var') #This method means any element named var directly within a td element and nothing in between
 
+    #4. Testing the captured results by looking at the absolute first element of the potentiall generated lists
+    ##The .get_text() method is used to remove the tags from the results and only present the text portion
+
     print((results_prices[0].getText().strip())) #->  ##The results will be shown in an html form you need to use the reuqests library to over come that. The strip() is added to remove the white spece
     print((results_manufacturer[0].getText())) #->  ##The results will be shown in an html form you need to use the reuqests library to over come that
     print((results_relesedate[0].getText())) #->  ##The results will be shown in an html form you need to use the reuqests library to over come that
@@ -100,6 +113,8 @@ def classes_two():
     print((results_vehicleTransmission[0].getText())) #->  ##The results will be shown in an html form you need to use the reuqests library to over come that
     print((results_driveWheelConfiguration[0].getText())) #->  ##The results will be shown in an html form you need to use the reuqests library to over come that
     print((results_city[0].getText())) #->  ##The results will be shown in an html form you need to use the reuqests library to over come that
+
+    #5. Creating lists to store the data from each feature we are interested in
 
     l_prices = []
     for x in results_prices:
@@ -159,15 +174,15 @@ def classes_two():
 
 
 
-t1 = time.time()
-total =t1-t0
-#print(total) -> Calculate the total time it takes to comples an opration
+time_1 = time.time_ns()
+total =time_1-time_0
+print (f' {(total)}  Nano seconds') #-> Calculate the total time it takes to comples an opration
 if __name__ == '__main__':
     #title()
     classes_two()
 
 
-    #Notes:
+    #Additional Notes:
     #The find_all() method looks through a tag’s descendants and retrieves all descendants that match your filters.
     #.select() method which uses the SoupSieve package to run a CSS selector against a parsed document and return all the matching elements. Tag has a similar method which runs a CSS selector against the contents of a single tag.
     ##In simplier tersm .select() method is used to locate all elements of a particular CSS class
