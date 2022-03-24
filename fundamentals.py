@@ -38,8 +38,9 @@ time_0 = time.time_ns()
 
 def classes_two():  # Method 2
 
+
     #A while loo[s that continously loops until len(l_prices) == 0
-    pg = 2
+    pg = 1
     while True:
 
         # 1. Using the requests library and its get method to connect to the web page
@@ -130,63 +131,83 @@ def classes_two():  # Method 2
         l_prices = []
         for x in results_prices:
             l_prices.append(x.get_text().replace("\n", ""))
-        print(l_prices)
+        #print(l_prices)
 
         l_manufacturer = []
         for x in results_manufacturer:
             l_manufacturer.append(x.get_text().replace(" ", ""))
-        print(l_manufacturer)
+        # print(l_manufacturer)
 
         l_relesedate = []
         for x in results_relesedate:
             l_relesedate.append(x.get_text().replace(" ", ""))
-        print(l_relesedate)
+        # print(l_relesedate)
 
         l_model = []
         for x in results_model:
             l_model.append(x.get_text())
-        print(l_model)
+        # print(l_model)
+
 
         l_km = []
         for x in results_km:
             l_km.append(x.get_text().replace(" ", ""))
-        print(l_km)
+        # print(l_km)
 
         l_bodytype = []
         for x in results_bodytype:
             l_bodytype.append(x.get_text().replace(" ", ""))
-        print(l_bodytype)
+        # print(l_bodytype)
 
         l_engine = []
         for x in results_engine:
             l_engine.append(x.get_text().replace(" ", ""))
-        print(l_engine)
+        # print(l_engine)
+
+
+
 
         l_color = []
         for x in results_color:
             l_color.append(x.get_text().replace(" ", ""))
-        print(l_color)
+        # print(l_color)
 
         l_vehicleTransmission = []
         for x in results_vehicleTransmission:
             l_vehicleTransmission.append(x.get_text().replace(" ", ""))
-        print(l_vehicleTransmission)
+        # print(l_vehicleTransmission)
 
         l_driveWheelConfiguration = []
         for x in results_driveWheelConfiguration:
             l_driveWheelConfiguration.append(x.get_text().replace(" ", ""))
-        print(l_driveWheelConfiguration)
+        # print(l_driveWheelConfiguration)
 
         l_city = []
         for x in results_city:
             l_city.append(x.get_text().replace(" ", ""))
-        print(l_city)
+        #print(l_city)
 
        #The condition for the while loop
         if len(l_prices) == 0:
             break
         # Adding page # each time we do not break
         pg = pg + 1
+
+    for po in l_city:
+        l_city.append(po)
+    print(l_city)
+
+
+
+
+
+
+    d = { 'l_prices':l_prices, 'l_manufacturer': l_manufacturer, 'l_relesedate': l_relesedate,
+         'l_model': l_model, 'l_km': l_km, 'l_bodytype': l_bodytype, 'l_engine': l_engine, 'l_color': l_color,
+         'l_vehicleTransmission': l_vehicleTransmission, 'l_driveWheelConfiguration': l_driveWheelConfiguration, 'l_city': l_city}
+    df = pd.DataFrame.from_dict(data=d, orient='index')  #https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
+    df = df.transpose()
+    #print(df)
 
 
 
