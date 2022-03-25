@@ -213,7 +213,8 @@ def classes_two():  # Method 2
         # Adding page # each time we do not break
         pg = pg + 1
 
-
+    #6. Present the data in a table like format using panda.DataFrome
+    ##You need to overcome the issue of empty rows
     d = {'l_prices': l_prices_all, 'l_manufacturer': l_manufacturer_all, 'l_relesedate': l_relesedate_all,
          'l_model': l_model_all, 'l_km': l_km_all, 'l_bodytype': l_bodytype_all, 'l_engine': l_engine_all, 'l_color': l_color_all,
          'l_vehicleTransmission': l_vehicleTransmission_all, 'l_driveWheelConfiguration': l_driveWheelConfiguration_all,
@@ -221,6 +222,15 @@ def classes_two():  # Method 2
     df = pd.DataFrame.from_dict(data=d,orient='index')  # https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
     df = df.transpose()
     print(df)
+
+    #7. Present the data in an csv format. Therefore transfer frpm pd.dataframe work to csv
+    ##https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
+    df.to_csv('~/Desktop/data.csv', ',')
+
+
+
+
+
     time_1 = time.time_ns()
     total = time_1 - time_0
     print(
