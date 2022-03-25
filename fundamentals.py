@@ -51,7 +51,7 @@ def classes_two():  # Method 2
     l_driveWheelConfiguration_all = []
     l_city_all = []
 
-    pg = 70
+    pg = 75
     while True:
 
         # 1. Using the requests library and its get method to connect to the web page
@@ -219,12 +219,13 @@ def classes_two():  # Method 2
     df = pd.DataFrame.from_dict(data=d,orient='index')  # https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
     df = df.transpose()
     print(df)
+    time_1 = time.time_ns()
+    total = time_1 - time_0
+    print(
+        f'The time it takes for the operation to run is: {(total* (10**(-9)))} seconds')  # -> Calculate the total time it takes to comples an opration
 
 
-time_1 = time.time_ns()
-total = time_1 - time_0
-print(
-    f'The time it takes for the operation to run is: {(total)}ns')  # -> Calculate the total time it takes to comples an opration
+
 if __name__ == '__main__':
     # title()
     classes_two()
