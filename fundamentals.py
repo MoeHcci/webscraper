@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 import lxml
 import html5lib
 import pandas as pd
+#Pandsa is used for data strctures and data analysis
+#pands.DataFrame --> provides a two dimentional, tabular data. That we can later transfer to excel or PostgreSQL
 import time
 
 time_0 = time.time_ns()
