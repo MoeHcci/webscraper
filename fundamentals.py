@@ -39,8 +39,19 @@ time_0 = time.time_ns()
 def classes_two():  # Method 2
 
     # A while loo[s that continously loops until len(l_prices) == 0
-    km_all = []
-    pg = 1
+    l_prices_all = []
+    l_manufacturer_all = []
+    l_relesedate_all = []
+    l_model_all = []
+    l_km_all = []
+    l_bodytype_all = []
+    l_engine_all = []
+    l_color_all = []
+    l_vehicleTransmission_all = []
+    l_driveWheelConfiguration_all = []
+    l_city_all = []
+
+    pg = 70
     while True:
 
         # 1. Using the requests library and its get method to connect to the web page
@@ -132,59 +143,67 @@ def classes_two():  # Method 2
         for x in results_prices:
             l_prices.append(x.get_text().replace("\n", ""))
         # print(l_prices)
+        l_prices_all = l_prices_all + l_prices
 
-        # l_manufacturer = []
-        # for x in results_manufacturer:
-        #     l_manufacturer.append(x.get_text().replace(" ", ""))
-        # # print(l_manufacturer)
-        #
-        # l_relesedate = []
-        # for x in results_relesedate:
-        #     l_relesedate.append(x.get_text().replace(" ", ""))
-        # # print(l_relesedate)
-        #
-        # l_model = []
-        # for x in results_model:
-        #     l_model.append(x.get_text())
-        # # print(l_model)
-        #
-        # l_km = []
-        # km_all = []
-        # for x in results_km:
-        #     l_km.append(x.get_text().replace(" ", ""))
+        l_manufacturer = []
+        for x in results_manufacturer:
+            l_manufacturer.append(x.get_text().replace(" ", ""))
+        # print(l_manufacturer)
+        l_manufacturer_all = l_manufacturer_all + l_manufacturer
+
+        l_relesedate = []
+        for x in results_relesedate:
+            l_relesedate.append(x.get_text().replace(" ", ""))
+        # print(l_relesedate)
+        l_relesedate_all = l_relesedate_all + l_relesedate
+
+        l_model = []
+        for x in results_model:
+            l_model.append(x.get_text())
+        # print(l_model)
+        l_model_all = l_model_all + l_model
+
+        l_km = []
+        for x in results_km:
+            l_km.append(x.get_text().replace(" ", ""))
         # print(l_km)
-        # km_all = km_all + l_km
-        # print(km_all)
-        #
-        # l_bodytype = []
-        # for x in results_bodytype:
-        #     l_bodytype.append(x.get_text().replace(" ", ""))
-        # # print(l_bodytype)
-        #
-        # l_engine = []
-        # for x in results_engine:
-        #     l_engine.append(x.get_text().replace(" ", ""))
-        # # print(l_engine)
-        #
-        # l_color = []
-        # for x in results_color:
-        #     l_color.append(x.get_text().replace(" ", ""))
-        # # print(l_color)
-        #
-        # l_vehicleTransmission = []
-        # for x in results_vehicleTransmission:
-        #     l_vehicleTransmission.append(x.get_text().replace(" ", ""))
-        # # print(l_vehicleTransmission)
-        #
-        # l_driveWheelConfiguration = []
-        # for x in results_driveWheelConfiguration:
-        #     l_driveWheelConfiguration.append(x.get_text().replace(" ", ""))
-        # # print(l_driveWheelConfiguration)
-        #
-        # l_city = []
-        # for x in results_city:
-        #     l_city.append(x.get_text().replace(" ", ""))
-        # # print(l_city)
+        l_km_all = l_km_all + l_km
+
+        l_bodytype = []
+        for x in results_bodytype:
+            l_bodytype.append(x.get_text().replace(" ", ""))
+        # print(l_bodytype)
+        l_bodytype_all = l_bodytype_all + l_bodytype
+
+        l_engine = []
+        for x in results_engine:
+            l_engine.append(x.get_text().replace(" ", ""))
+        # print(l_engine)
+        l_engine_all = l_engine_all + l_engine
+
+        l_color = []
+        for x in results_color:
+            l_color.append(x.get_text().replace(" ", ""))
+        # print(l_color)
+        l_color_all = l_color_all + l_color
+
+        l_vehicleTransmission = []
+        for x in results_vehicleTransmission:
+            l_vehicleTransmission.append(x.get_text().replace(" ", ""))
+        # print(l_vehicleTransmission)
+        l_vehicleTransmission_all = l_vehicleTransmission_all + l_vehicleTransmission
+
+        l_driveWheelConfiguration = []
+        for x in results_driveWheelConfiguration:
+            l_driveWheelConfiguration.append(x.get_text().replace(" ", ""))
+        # print(l_driveWheelConfiguration)
+        l_driveWheelConfiguration_all = l_driveWheelConfiguration_all + l_driveWheelConfiguration
+
+        l_city = []
+        for x in results_city:
+            l_city.append(x.get_text().replace(" ", ""))
+        # print(l_city)
+        l_city_all = l_city_all + l_city
 
         # The condition for the while loop
         if len(l_prices) == 0:
@@ -192,33 +211,14 @@ def classes_two():  # Method 2
         # Adding page # each time we do not break
         pg = pg + 1
 
-        l_km = []
-        for x in results_km:
-            l_km.append(x.get_text().replace(" ", ""))
-        #print(l_km)
-        km_all = km_all + l_km
-        print(km_all)
 
-
-
-
-
-
-
-
-
-
-
-
-
-    d = {'l_prices': l_prices, 'l_manufacturer': l_manufacturer, 'l_relesedate': l_relesedate,
-         'l_model': l_model, 'l_km': l_km, 'l_bodytype': l_bodytype, 'l_engine': l_engine, 'l_color': l_color,
-         'l_vehicleTransmission': l_vehicleTransmission, 'l_driveWheelConfiguration': l_driveWheelConfiguration,
-         'l_city': l_city}
-    df = pd.DataFrame.from_dict(data=d,
-                                orient='index')  # https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
+    d = {'l_prices': l_prices_all, 'l_manufacturer': l_manufacturer_all, 'l_relesedate': l_relesedate_all,
+         'l_model': l_model_all, 'l_km': l_km_all, 'l_bodytype': l_bodytype_all, 'l_engine': l_engine_all, 'l_color': l_color_all,
+         'l_vehicleTransmission': l_vehicleTransmission_all, 'l_driveWheelConfiguration': l_driveWheelConfiguration_all,
+         'l_city': l_city_all}
+    df = pd.DataFrame.from_dict(data=d,orient='index')  # https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
     df = df.transpose()
-    # print(df)
+    print(df)
 
 
 time_1 = time.time_ns()
