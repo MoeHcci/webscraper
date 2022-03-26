@@ -3,12 +3,12 @@
 # Step 1 Import the libraries
 import requests  # https://docs.python-requests.org/en/latest/
 import bs4  # https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-from bs4 import BeautifulSoup
 import lxml
-import html5lib
-import pandas as pd
+import pandas
 # Pandsa is used for data strctures and data analysis
 # pands.DataFrame --> provides a two dimentional, tabular data. That we can later transfer to excel or PostgreSQL
+import sqlalchemy
+
 import time
 
 time_0 = time.time_ns()
@@ -53,7 +53,7 @@ def classes_two():  # Method 2
     l_driveWheelConfiguration_all = []
     l_city_all = []
 
-    pg = 79
+    pg = 75
     while True:
 
         # 1. Using the requests library and its get method to connect to the web page
@@ -73,7 +73,7 @@ def classes_two():  # Method 2
         ### .text would be preferred for textual responses, such as an HTML or XML document. Used for Unicode. Therefore, we should use .text in this project
         ###.content would be preferred for "binary" filetypes, such as an image or PDF fil. Used for bytes
 
-        soup = BeautifulSoup(response.text, 'lxml')
+        soup = bs4.BeautifulSoup(response.text, 'lxml')
         ## .text would be preferred for textual responses, such as an HTML or XML document. Used for Unicode
 
         # soup=BeautifulSoup(response.content,'html5lib')
@@ -213,21 +213,26 @@ def classes_two():  # Method 2
         # Adding page # each time we do not break
         pg = pg + 1
 
-    # 6. Present the data in a table like format using panda.DataFrome
+    # 6. Present the data in a table format using panda.DataFrome. (Create the DataFrame)
     ##You need to overcome the issue of empty rows
     d = {'l_model': l_model_all, 'l_manufacturer': l_manufacturer_all, 'l_relesedate': l_relesedate_all,
          'l_color': l_color_all, 'l_km': l_km_all, 'l_prices': l_prices_all, 'l_bodytype': l_bodytype_all,
          'l_engine': l_engine_all,
          'l_vehicleTransmission': l_vehicleTransmission_all, 'l_driveWheelConfiguration': l_driveWheelConfiguration_all,
          'l_city': l_city_all}
-    df = pd.DataFrame.from_dict(data=d,
-                                orient='index')  # https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
+    df = pandas.DataFrame.from_dict(data=d,orient='index')  # https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
     df = df.transpose()
     print(df)
 
     # 7. Present the data in an csv format. Therefore transfer frpm pd.dataframe work to csv
     ##https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
-    df.to_csv('~/Desktop/data.csv', ',')
+    df.to_csv('~/Desktop/data.csv',sep=',')
+
+    # 8. Present the data in apostgresql
+
+    engine = sqlalchemy.create_engine('postgresql://postgres:password@localhost:5432/dvdrental')
+    df.to_sql('web_scraper_second_exp',engine, if_exists='replace')
+
 
     time_1 = time.time_ns()
     total = time_1 - time_0
