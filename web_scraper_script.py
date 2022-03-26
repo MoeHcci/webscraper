@@ -36,7 +36,7 @@ def web_scraper():
     l_city_all = []
 
     #The start page # You can keep the default at 1 or choose any other page number
-    pg = 75
+    pg = 1
 
     # A while loops that continously loops until len(l_prices) == 0
     while True:
