@@ -96,6 +96,8 @@ When done a complete list of every parameter is captured.</li>
 <li>The parameter is Kilometers and in the image below it is 72,721.</li>
 <li>The parameter is placed between a "spun" tag and has a "class" called mileage-used-list.</li>
 <li>The code to scrape the that information is :- results_prices = soup.find_all('span', class_='vehicle-price-2-new suggestedPrice-price').</li>
+
+
 </ul>
 
 <p><img src="km.png" alt="kmsoup" style="width:100%;"></p>
@@ -107,6 +109,8 @@ When done a complete list of every parameter is captured.</li>
 <ul>
 <li>
 Using the Panda library the data is presented in a tabular format. A screenshot of the DataFrame & The results is presented below:</li> 
+<li><b>The total number of rows is presented as 753 which indicates that the scraper looped 
+through every page in web site</b></li>
 <p><img src="pandaresults.png" alt="pandadataframe" style="width:100%;"></p>
 
 </ul>
