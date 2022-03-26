@@ -85,7 +85,7 @@ a connection with the web page is created.
 <li>
 The main parameters are filtered out. The following parameters were chosen in the script: </li> <ul>
 <li>
-Model, Manufacturer, Year, Color, KM, Price, Body Type, 
+Model, Year, Color, KM, Price, Body Type, 
 Engine Type, Transmission type, Wheel Configuration, & City.
  </li>
 </ul>

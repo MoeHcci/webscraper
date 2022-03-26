@@ -24,7 +24,6 @@ def web_scraper():
 
     #Empty lists that are used to capture the scraped data
     l_model_all = []
-    l_manufacturer_all = []
     l_relesedate_all = []
     l_color_all = []
     l_km_all = []
@@ -48,16 +47,19 @@ def web_scraper():
         #print(response.status_code)
 
         #Creating a soup using the BeautifulSoup method of bs4 & the "lxml" parser. Also, the .text method is used
-        soup = bs4.BeautifulSoup(response.text, 'lxml')
+        soup = bs4.BeautifulSoup(response.text, 'html.parser')
 
 
         #Capturing the raw results using the soup.find_all varilable and attribute
+        #results_manufacturer = soup.find_all('span', itemprop='manufacturer')
         results_manufacturer = soup.find_all('span', itemprop='manufacturer')
+        #There is an issue here: The itemprop='manufacturer' is not mentioned for every single vehicles some vehicles
+        ##have the manufacturers name within the model's name. Therefore. The manufacturer column isn't included
         results_model = soup.find_all('span', itemprop='model')
         results_relesedate = soup.find_all('span', itemprop='releaseDate')
         results_color = soup.find_all('td', itemprop='color')
         results_km = soup.find_all('span', class_='mileage-used-list')
-        results_prices = soup.find_all('span', class_='vehicle-price-2-new suggestedPrice-price')
+        results_prices = soup.find_all('span', itemprop="price")
         results_bodytype = soup.find_all('td', itemprop='bodyType')
         results_engine = soup.find_all('td', itemprop='vehicleEngine')
         results_vehicleTransmission = soup.find_all('td', itemprop='vehicleTransmission')
@@ -69,11 +71,6 @@ def web_scraper():
         for x in results_prices:
             l_prices.append(x.get_text().replace("\n", ""))
         l_prices_all = l_prices_all + l_prices
-
-        l_manufacturer = []
-        for x in results_manufacturer:
-            l_manufacturer.append(x.get_text().replace(" ", ""))
-        l_manufacturer_all = l_manufacturer_all + l_manufacturer
 
         l_relesedate = []
         for x in results_relesedate:
@@ -123,11 +120,12 @@ def web_scraper():
         # The condition for the while loop
         if len(l_prices) == 0:
             break
+
         # Adding page number each time the while loop completes an iteration
         pg = pg + 1
 
     #Outside the while loop. Panda is used to present the data in table format using panda.DataFrome
-    d = {'l_model': l_model_all, 'l_manufacturer': l_manufacturer_all, 'l_relesedate': l_relesedate_all,
+    d = {'l_model': l_model_all,'l_relesedate': l_relesedate_all,
          'l_color': l_color_all, 'l_km': l_km_all, 'l_prices': l_prices_all, 'l_bodytype': l_bodytype_all,
          'l_engine': l_engine_all,
          'l_vehicleTransmission': l_vehicleTransmission_all, 'l_driveWheelConfiguration': l_driveWheelConfiguration_all,
@@ -137,7 +135,7 @@ def web_scraper():
     #Resource: stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
     df = pandas.DataFrame.from_dict(data=d,orient='index')
     df = df.transpose()
-    print(df)
+    #print(df)
 
     #Present the data in an csv format. Therefore transfer frpm pd.dataframe work to csv
     pwd = '~/Desktop/scraped_data.csv'
