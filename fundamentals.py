@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 import lxml
 import html5lib
 import pandas as pd
-#Pandsa is used for data strctures and data analysis
-#pands.DataFrame --> provides a two dimentional, tabular data. That we can later transfer to excel or PostgreSQL
+# Pandsa is used for data strctures and data analysis
+# pands.DataFrame --> provides a two dimentional, tabular data. That we can later transfer to excel or PostgreSQL
 import time
 
 time_0 = time.time_ns()
@@ -41,19 +41,19 @@ time_0 = time.time_ns()
 def classes_two():  # Method 2
 
     # A while loo[s that continously loops until len(l_prices) == 0
-    l_prices_all = []
+    l_model_all = []
     l_manufacturer_all = []
     l_relesedate_all = []
-    l_model_all = []
+    l_color_all = []
     l_km_all = []
+    l_prices_all = []
     l_bodytype_all = []
     l_engine_all = []
-    l_color_all = []
     l_vehicleTransmission_all = []
     l_driveWheelConfiguration_all = []
     l_city_all = []
 
-    pg = 75
+    pg = 79
     while True:
 
         # 1. Using the requests library and its get method to connect to the web page
@@ -97,17 +97,17 @@ def classes_two():  # Method 2
         # 2. The tag and feature method
         # 3. The multi-tag method
 
-        results_prices = soup.find_all('span', class_='vehicle-price-2-new suggestedPrice-price')
         ##This will find all the <span> tags in the html document.and those <span> tags must have 'vehicle-price-2-new suggestedPrice-price' class.
         ##Using class as a keyword argument will give you a syntax error. As of Beautiful Soup 4.1.2, you can search by CSS class using the keyword argument class_ (A new short cut)
         # For multiple classes we need to use the CSS classes selector
-        results_relesedate = soup.find_all('span', itemprop='releaseDate')
         results_manufacturer = soup.find_all('span', itemprop='manufacturer')
         results_model = soup.find_all('span', itemprop='model')
+        results_relesedate = soup.find_all('span', itemprop='releaseDate')
+        results_color = soup.find_all('td', itemprop='color')
         results_km = soup.find_all('span', class_='mileage-used-list')
+        results_prices = soup.find_all('span', class_='vehicle-price-2-new suggestedPrice-price')
         results_bodytype = soup.find_all('td', itemprop='bodyType')
         results_engine = soup.find_all('td', itemprop='vehicleEngine')
-        results_color = soup.find_all('td', itemprop='color')
         results_vehicleTransmission = soup.find_all('td', itemprop='vehicleTransmission')
         results_driveWheelConfiguration = soup.find_all('td', itemprop='driveWheelConfiguration')
         results_city = soup.select(
@@ -213,29 +213,26 @@ def classes_two():  # Method 2
         # Adding page # each time we do not break
         pg = pg + 1
 
-    #6. Present the data in a table like format using panda.DataFrome
+    # 6. Present the data in a table like format using panda.DataFrome
     ##You need to overcome the issue of empty rows
-    d = {'l_prices': l_prices_all, 'l_manufacturer': l_manufacturer_all, 'l_relesedate': l_relesedate_all,
-         'l_model': l_model_all, 'l_km': l_km_all, 'l_bodytype': l_bodytype_all, 'l_engine': l_engine_all, 'l_color': l_color_all,
+    d = {'l_model': l_model_all, 'l_manufacturer': l_manufacturer_all, 'l_relesedate': l_relesedate_all,
+         'l_color': l_color_all, 'l_km': l_km_all, 'l_prices': l_prices_all, 'l_bodytype': l_bodytype_all,
+         'l_engine': l_engine_all,
          'l_vehicleTransmission': l_vehicleTransmission_all, 'l_driveWheelConfiguration': l_driveWheelConfiguration_all,
          'l_city': l_city_all}
-    df = pd.DataFrame.from_dict(data=d,orient='index')  # https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
+    df = pd.DataFrame.from_dict(data=d,
+                                orient='index')  # https://stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
     df = df.transpose()
     print(df)
 
-    #7. Present the data in an csv format. Therefore transfer frpm pd.dataframe work to csv
+    # 7. Present the data in an csv format. Therefore transfer frpm pd.dataframe work to csv
     ##https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
     df.to_csv('~/Desktop/data.csv', ',')
-
-
-
-
 
     time_1 = time.time_ns()
     total = time_1 - time_0
     print(
-        f'The time it takes for the operation to run is: {(total* (10**(-9)))} seconds')  # -> Calculate the total time it takes to comples an opration
-
+        f'The time it takes for the operation to run is: {(total * (10 ** (-9)))} seconds')  # -> Calculate the total time it takes to comples an opration
 
 
 if __name__ == '__main__':
