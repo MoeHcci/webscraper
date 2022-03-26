@@ -110,7 +110,7 @@ When done a complete list of every parameter is captured.</li>
 <li>
 Using the Panda library the data is presented in a tabular format. A screenshot of the DataFrame & The results is presented below:</li> 
 <li><b>The total number of rows is presented as 753 which indicates that the scraper looped 
-through every page in web site</b></li>
+through every page in the web site</b></li>
 <p><img src="pandaresults.png" alt="pandadataframe" style="width:100%;"></p>
 
 </ul>
