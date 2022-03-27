@@ -109,8 +109,8 @@ When done a complete list of every parameter is captured.</li>
 <ul>
 <li>
 Using the Panda library the data is presented in a tabular format. A screenshot of the DataFrame & The results is presented below:</li> 
-<li><b>The total number of rows is presented as 753 which indicates that the scraper looped 
-through every page in the web site</b></li>
+<li><b>The total number of rows is 753 which indicates that the scraper looped 
+through every page in the web site and scraped the data of 753 vehicles at the time of this recording</b></li>
 <p><img src="pandaresults.png" alt="pandadataframe" style="width:100%;"></p>
 
 </ul>
@@ -120,7 +120,8 @@ through every page in the web site</b></li>
 <ul>
 <li>
 Using the Panda library the data is transferred into .csv file. A screenshot of the image is below: </li> 
-<p><img src="csvfile.png" alt="csvfile" style="width:100%;"></p>
+<p><img src="csvfile2.png" alt="csvfile" style="width:100%;"></p>
+
 </ul>
 
 <h2> Step 6 </h2>
@@ -136,3 +137,14 @@ A screenshot of the results is below:
 </ul>
 
 
+<h2> Results Examples </h2>
+<ul>
+<li>
+A screenshot of additional correlations between the web page and .csv file:</li>
+<p><img src="results_csv.png" alt="results_csv" style="width:100%;"></p>
+</ul>
+<ul>
+<li>
+A screenshot of a query in PostgreSQL that displays the data of manufacturer, model, and prices columns where the manufacture is “Nissan”: </li>
+<p><img src="resultspostgresql.png" alt="resultspostgresql" style="width:100%;"></p>
+</ul>
