@@ -15,6 +15,7 @@ import sqlalchemy
 #The sqlalchemy library will allow the script to connect with PostgreSQL
 import time
 #The time library is used to keep the time it takes to run the script
+import fnmatch
 
 #Time counter begins
 time_0 = time.time_ns()
@@ -24,6 +25,7 @@ def web_scraper():
 
     #Empty lists that are used to capture the scraped data
     l_model_all = []
+    l_manufacturer_all = []
     l_relesedate_all = []
     l_color_all = []
     l_km_all = []
@@ -51,12 +53,9 @@ def web_scraper():
 
 
         #Capturing the raw results using the soup.find_all varilable and attribute
-        #results_manufacturer = soup.find_all('span', itemprop='manufacturer')
-        results_manufacturer = soup.find_all('span', itemprop='manufacturer')
-        #There is an issue here: The itemprop='manufacturer' is not mentioned for every single vehicles some vehicles
-        ##have the manufacturers name within the model's name. Therefore. The manufacturer column isn't included
-        results_model = soup.find_all('span', itemprop='model')
-        results_relesedate = soup.find_all('span', itemprop='releaseDate')
+        #For the manufacturer, model, and year
+
+        results_manufacturer_model_year = soup.find_all('a', class_='stat-text-link',itemprop="url")
         results_color = soup.find_all('td', itemprop='color')
         results_km = soup.find_all('span', class_='mileage-used-list')
         results_prices = soup.find_all('span', itemprop="price")
@@ -67,20 +66,32 @@ def web_scraper():
         results_city = soup.select('td > var')
 
         #Creating lists to store the data from each feature we are interested in
+        l_manufacturer = []
+        for x in results_manufacturer_model_year:
+            manufacturer = (x.get_text().split()[1])
+            l_manufacturer.append(manufacturer)
+        l_manufacturer_all = l_manufacturer_all + l_manufacturer
+        # print(l_manufacturer_all)
+
+        l_relesedate = []
+        for x in results_manufacturer_model_year:
+            relesedate = (x.get_text().split()[0])
+            l_relesedate.append(relesedate)
+        l_relesedate_all = l_relesedate_all + l_relesedate
+        # print(l_relesedate_all)
+
+
+        l_model = []
+        for x in results_manufacturer_model_year:
+            model= (x.get_text().split()[2])
+            l_model.append(model)
+        l_model_all = l_model_all + l_model
+        # print(l_model_all)
+
         l_prices = []
         for x in results_prices:
             l_prices.append(x.get_text().replace("\n", ""))
         l_prices_all = l_prices_all + l_prices
-
-        l_relesedate = []
-        for x in results_relesedate:
-            l_relesedate.append(x.get_text().replace(" ", ""))
-        l_relesedate_all = l_relesedate_all + l_relesedate
-
-        l_model = []
-        for x in results_model:
-            l_model.append(x.get_text())
-        l_model_all = l_model_all + l_model
 
         l_km = []
         for x in results_km:
@@ -125,7 +136,7 @@ def web_scraper():
         pg = pg + 1
 
     #Outside the while loop. Panda is used to present the data in table format using panda.DataFrome
-    d = {'l_model': l_model_all,'l_relesedate': l_relesedate_all,
+    d = {'l_manufacturer':l_manufacturer_all,'l_model': l_model_all,'l_relesedate': l_relesedate_all,
          'l_color': l_color_all, 'l_km': l_km_all, 'l_prices': l_prices_all, 'l_bodytype': l_bodytype_all,
          'l_engine': l_engine_all,
          'l_vehicleTransmission': l_vehicleTransmission_all, 'l_driveWheelConfiguration': l_driveWheelConfiguration_all,
@@ -135,7 +146,7 @@ def web_scraper():
     #Resource: stackoverflow.com/questions/40442014/python-pandas-valueerror-arrays-must-be-all-same-length
     df = pandas.DataFrame.from_dict(data=d,orient='index')
     df = df.transpose()
-    #print(df)
+    # print(df)
 
     #Present the data in an csv format. Therefore transfer frpm pd.dataframe work to csv
     pwd = '~/Desktop/scraped_data.csv'

@@ -105,7 +105,7 @@ def classes_two():  # Method 2
         results_relesedate = soup.find_all('span', itemprop='releaseDate')
         results_color = soup.find_all('td', itemprop='color')
         results_km = soup.find_all('span', class_='mileage-used-list')
-        results_prices = soup.find_all('span', class_='vehicle-price-2-new suggestedPrice-price')
+        results_prices = soup.find_all('span', itemprop='price')
         results_bodytype = soup.find_all('td', itemprop='bodyType')
         results_engine = soup.find_all('td', itemprop='vehicleEngine')
         results_vehicleTransmission = soup.find_all('td', itemprop='vehicleTransmission')
