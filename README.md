@@ -4,6 +4,7 @@
 <p> This project is a web scraper that scrapes the data of used vehicles from 
 <a href="https://www.autoparkmississauga.ca/">Auto Park's Web page</a>. As of <b>March 26, 2022</b> the data is scrapped smoothly.
 Any modifications to the Auto Park's web page could potentially impact the web scraper</p>
+<p> Please view the <b>web_scraper_script.py</b> file to view the web scraper script</p>
 
 <h2> Technologies</h2>
 <ul>
